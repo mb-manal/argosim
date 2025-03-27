@@ -1,6 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+import sys
+import os
+
+# Ajouter le chemin de `src/` au PYTHONPATH
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../src")))
+
+
 from argosim.antenna_utils import *
 from argosim.plot_utils import *
 from argosim.data_utils import *
@@ -8,7 +15,9 @@ from argosim.clean import *
 from argosim.imaging_utils import *
 from argosim.beam_utils import *
 
-antenna = load_antenna_enu_txt("/home/configs/arrays/argos_pathfinder.enu.txt")
+#antenna = load_antenna_enu_txt("/home/configs/arrays/argos_pathfinder.enu.txt")
+antenna = load_antenna_enu_txt("/Users/mb279434/argosim/configs/arrays/argos_pathfinder.enu.txt")
+
 # plot_antenna_arr(antenna)
 baselines = get_baselines(antenna)
 # plot_baselines(baselines, ENU=True)
@@ -43,7 +52,7 @@ fig, ax = plt.subplots(1, 3, figsize=(18, 5))
 plot_antenna_arr(antenna, ax[0], fig, title="Array")
 plot_baselines(baselines, ax[1], fig, ENU=True)
 plot_baselines(track, ax[2], fig)
-plt.savefig("/workdir/array_baselines.pdf")
+plt.savefig("/Users/mb279434/argosim/figures/array_baselines.pdf")
 
 Npx = 512
 fov_size = (3.0, 3.0)  # 3 degrees FOV from 6 m parabolic dishes.
@@ -67,7 +76,7 @@ fig, ax = plt.subplots(1, 3, figsize=(18, 5))
 plot_sky(sky, fov_size, ax[0], fig, "Sky")
 plot_sky(beam, fov_size, ax[1], fig, "Beam")
 plot_sky(obs, fov_size, ax[2], fig, "Observation")
-plt.savefig("/workdir/observation.pdf")
+plt.savefig("/Users/mb279434/argosim/figures/observation.pdf")
 
 # Clean
 I_clean, sky_model = clean_hogbom(obs, beam, 0.2, 100, 1e-3, clean_beam_size_px=10)
@@ -77,4 +86,6 @@ plot_sky(obs, fov_size, ax[0], fig, "Observation")
 plot_sky(I_clean, fov_size, ax[1], fig, "Clean observation")
 plot_sky(sky, fov_size, ax[2], fig, "Sky model")
 
-plt.savefig("/workdir/clean_observation.pdf")
+plt.savefig("/Users/mb279434/argosim/figures/clean_observation.pdf")
+
+plt.show()
